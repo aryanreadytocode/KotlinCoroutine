@@ -1,0 +1,5 @@
+Coroutine
+    1. Light weight thread
+    2. Like thread, coroutine can run in parallel, wait for each other and communicate with each other
+    3. Coroutine are not thread
+    4. Coroutines are very very cheap - almost free. Create thousands of them without any memory issues. "Best for modern application"
