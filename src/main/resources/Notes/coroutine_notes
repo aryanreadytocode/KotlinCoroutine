@@ -1,24 +1,25 @@
-#Coroutine
+# Coroutine
     1. Light weight thread
     2. Like thread, coroutine can run in parallel, wait for each other and communicate with each other
     3. Coroutine are not thread
     4. Coroutines are very very cheap - almost free. Create thousands of them without any memory issues. "Best for modern application"
     5. Unlike threads, for coroutines the application by default does not wait for it to finish its execution.
+    6. Code execution within coroutine is by default sequential
 
-#delay() method does not block the thread like sleep()
+# delay() method does not block the thread like sleep()
 
-#Suspedign Function:
+# Suspending Function:
     1. A function with a 'suspend' modifier is known as suspending function.
     2. The suspending functions are only allowed to be called from a coroutine or from another suspending function.
     3. They cannot be called from outside a coroutine.
 
-#launch coroutine builder (Fire and forget)
+# 'launch' coroutine builder (Fire and forget)
     1. Launches a new coroutine without blocking the current thread
     2. Inherits the thread and coroutine scope of the immediate parent coroutine
     3. Returns a reference to the Job object
     4. Using Job object you can cancel the coroutine or wait for the coroutine to finish
 
-#'async' coroutine builder
+# 'async' coroutine builder
     1. Launches a new coroutine without blocking the current thread
     2. Inherits the thread and coroutine scope of the immediate parent coroutine
     3. Returns a reference to the Deferred<T> object
@@ -26,3 +27,30 @@
 
 # 'runBlocking' coroutine builder
     1. block the thread in which it getting called
+
+#Two ways to make Coroutine Cooperative
+    1. Periodically invoke a suspending function that checks for cancellation.
+    2. Only those suspending functions that belongs to Kotlinx.coroutine package will make coroutine cooperative
+    3. delay(), yield(), withContext(), withTimeout() etc. are the suspending functions that belongs to kotlinx.coroutine package.
+    4. Explicitly check for the cancellation status within the coroutine
+        - CoroutineScope.isActive boolean flag
+
+# Handling Exception
+    1. Cancellable suspending functions such as yield(), delay() etc. throw CancellationException on the coroutine cancellation
+    2. You cannot execute a suspending function from the finally block because the coroutine running this code is already cancelled.
+    3. If you want to execute a suspending function form a finally block then wrap the code within withContext(NonCancellable) function
+    4. You can print your own cancellation message using job.cancel(CancellationException("My own message"))
+
+# WithTimeout and withTimeoutOrNull
+    1. Similar to launch and async functions, withTimeout and with TimeoutOrNull functions are coroutine builders.
+
+# Coroutine Context
+    1. Each coroutine has its own CoroutineScope instance attached to it
+
+# Dispatcher:
+    1. Dispatcher determines the thread of a coroutine
+    2. Types:
+        - Default
+        - Unconfined
+        - Main
+        - IO
