@@ -1,5 +1,28 @@
-Coroutine
+#Coroutine
     1. Light weight thread
     2. Like thread, coroutine can run in parallel, wait for each other and communicate with each other
     3. Coroutine are not thread
     4. Coroutines are very very cheap - almost free. Create thousands of them without any memory issues. "Best for modern application"
+    5. Unlike threads, for coroutines the application by default does not wait for it to finish its execution.
+
+#delay() method does not block the thread like sleep()
+
+#Suspedign Function:
+    1. A function with a 'suspend' modifier is known as suspending function.
+    2. The suspending functions are only allowed to be called from a coroutine or from another suspending function.
+    3. They cannot be called from outside a coroutine.
+
+#launch coroutine builder (Fire and forget)
+    1. Launches a new coroutine without blocking the current thread
+    2. Inherits the thread and coroutine scope of the immediate parent coroutine
+    3. Returns a reference to the Job object
+    4. Using Job object you can cancel the coroutine or wait for the coroutine to finish
+
+#'async' coroutine builder
+    1. Launches a new coroutine without blocking the current thread
+    2. Inherits the thread and coroutine scope of the immediate parent coroutine
+    3. Returns a reference to the Deferred<T> object
+    4. Using Deferred object you ca cancel the coroutine, wait for coroutine to finish, or retrieve the returned result
+
+# 'runBlocking' coroutine builder
+    1. block the thread in which it getting called
